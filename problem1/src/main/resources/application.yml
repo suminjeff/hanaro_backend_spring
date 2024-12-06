@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: problem1
+
+  logging:
+    level:
+      org:
+        springframework:
+          security:
+            web: trace
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/assignmentdb?serverTimezone=UTC&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
+    username: scott
+    password: tiger
+
+  mybatis:
+    config-location: classpath:mybatis-config.xml
+    mapper-locations: classpath:mappers/*.xml
+    type-aliases-package: org.problem1
