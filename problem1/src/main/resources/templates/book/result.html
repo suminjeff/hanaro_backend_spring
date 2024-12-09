@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Read</title>
+</head>
+<body>
+<h2>도서 상세 보기</h2>
+
+<dl>
+    <dt>도서명</dt>
+    <dd th:text="${book.title}"></dd>
+
+    <dt>저자</dt>
+    <dd th:text="${book.author}"></dd>
+
+    <dt>출판사</dt>
+    <dd th:text="${book.publisher}"></dd>
+
+    <dt>신청자</dt>
+    <dd th:text="${book.borrowerId}"></dd>
+
+    <dt>대출일</dt>
+    <dd th:text="${book.description}"></dd>
+
+    <dt>반납일</dt>
+    <dd th:text="${book.isbn}"></dd>
+</dl>
+</body>
+</html>

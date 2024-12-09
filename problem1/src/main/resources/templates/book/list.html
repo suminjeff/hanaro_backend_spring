@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book List</title>
+</head>
+<body>
+    <h2>보유 도서 목록</h2>
+    <table>
+        <tr>
+            <th>도서명</th>
+            <th>저자</th>
+            <th>출판사</th>
+            <th>ISBN</th>
+            <th>대출가능</th>
+        </tr>
+
+        <!-- 글 목록 반복 출력 -->
+        <tr th:each="item : ${bList}">
+            <td>
+                <a th:href="@{/book/read(bno=${item.bno})}" th:text="${item.title}"></a>
+            </td>
+            <td th:text="${item.author}"></td>
+            <td th:text="${item.publisher}"></td>
+            <td th:text="${item.isbn}"></td>
+            <td th:text="${item.availability} ? 'O' : 'X'"></td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Book {
     private Integer bno;
-    private String title, author, publisher, description, isbn, borrowerId;
-    private LocalDateTime startDate, endDate;
+    private String title, author, publisher, description, isbn;
     private Boolean availability;
+    private String borrowerId;
+    private LocalDateTime startDate, endDate;
 }

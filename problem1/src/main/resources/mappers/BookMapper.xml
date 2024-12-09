@@ -6,4 +6,22 @@
         insert into book(title, author, publisher, description, isbn)
         values (#{title}, #{author}, #{publisher}, #{description}, #{isbn})
     </insert>
+
+    <select id="read" resultType="org.problem1.domain.Book">
+        select * from book where bno = #{bno}
+    </select>
+
+    <select id="getList" resultType="org.problem1.domain.Book">
+        select * from book
+    </select>
+
+    <update id="borrow">
+        update book
+        set borrowerId = #{borrowerId}, availability = false, startDate = NOW(), endDate = DATE_ADD(NOW(), INTERVAL 7 DAY)
+        where bno = #{bno}
+    </update>
+
+    <delete id="delete">
+        delete from book where bno = #{bno}
+    </delete>
 </mapper>
