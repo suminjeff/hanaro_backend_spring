@@ -4,26 +4,44 @@
     <title>Book Read</title>
 </head>
 <body>
-<h2>도서 상세 보기</h2>
-
-<dl>
-    <dt>도서명</dt>
-    <dd th:text="${book.title}"></dd>
-
-    <dt>저자</dt>
-    <dd th:text="${book.author}"></dd>
-
-    <dt>출판사</dt>
-    <dd th:text="${book.publisher}"></dd>
-
-    <dt>신청자</dt>
-    <dd th:text="${book.borrowerId}"></dd>
-
-    <dt>대출일</dt>
-    <dd th:text="${book.description}"></dd>
-
-    <dt>반납일</dt>
-    <dd th:text="${book.isbn}"></dd>
-</dl>
+<th:block th:replace="~{/layouts/basic :: setContent(~{this :: content})}">
+    <th:block th:fragment="content">
+        <div class="d-flex flex-column align-items-center">
+            <h2 class="text-primary" th:text="#{book.result}"></h2>
+            <dl class="row">
+                <div class="d-flex align-items-center">
+                    <dt class="col-sm-3 fw-bold">도서명</dt>
+                    <dd class="col-sm-9" th:text="${book.title}"></dd>
+                </div>
+                <hr>
+                <div class="d-flex align-items-center">
+                    <dt class="col-sm-3 fw-bold">저자</dt>
+                    <dd class="col-sm-9" th:text="${book.author}"></dd>
+                </div>
+                <hr>
+                <div class="d-flex align-items-center">
+                    <dt class="col-sm-3 fw-bold">출판사</dt>
+                    <dd class="col-sm-9" th:text="${book.publisher}"></dd>
+                </div>
+                <hr>
+                <div class="d-flex align-items-center">
+                    <dt class="col-sm-3 fw-bold">신청자</dt>
+                    <dd class="col-sm-9" th:text="${book.borrowerId}"></dd>
+                </div>
+                <hr>
+                <div class="d-flex align-items-center">
+                    <dt class="col-sm-3 fw-bold">대출일</dt>
+                    <dd class="col-sm-9" th:text="${#temporals.format(book.startDate, 'yyyy-MM-dd')}"></dd>
+                </div>
+                <hr>
+                <div class="d-flex align-items-center">
+                    <dt class="col-sm-3 fw-bold">반납일</dt>
+                    <dd class="col-sm-9" th:text="${#temporals.format(book.endDate, 'yyyy-MM-dd')}"></dd>
+                </div>
+            </dl>
+            <a th:href="@{/book/list}" class="btn btn-success text-decoration-none text-white w-100">목록 보기</a>
+        </div>
+    </th:block>
+</th:block>
 </body>
 </html>

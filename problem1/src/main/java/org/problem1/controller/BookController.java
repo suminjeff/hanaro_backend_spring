@@ -28,14 +28,13 @@ public class BookController {
     }
 
     @PostMapping("/borrow")
-    public String postBorrow(@RequestParam int bno, BorrowRequestDTO borrowRequestDTO, RedirectAttributes redirectAttributes) {
+    public String postBorrow(@RequestParam int bno, BorrowRequestDTO borrowRequestDTO) {
         service.borrow(bno, borrowRequestDTO.getBorrowerId());
-        System.out.println(">>>>>>>>>>>>>>>>" + service.read(bno));
-        return "redirect:/book/result";
+        return "redirect:/book/result?bno=" + bno;
     }
 
     @GetMapping("/result")
-    public void getResult() {
-
+    public void getResult(@RequestParam int bno, Model model) {
+        model.addAttribute("book", service.read(bno));
     }
 }

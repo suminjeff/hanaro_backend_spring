@@ -2,28 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Book List</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 </head>
 <body>
-    <h2>보유 도서 목록</h2>
-    <table>
-        <tr>
-            <th>도서명</th>
-            <th>저자</th>
-            <th>출판사</th>
-            <th>ISBN</th>
-            <th>대출가능</th>
-        </tr>
-
-        <!-- 글 목록 반복 출력 -->
-        <tr th:each="item : ${bList}">
-            <td>
-                <a th:href="@{/book/read(bno=${item.bno})}" th:text="${item.title}"></a>
-            </td>
-            <td th:text="${item.author}"></td>
-            <td th:text="${item.publisher}"></td>
-            <td th:text="${item.isbn}"></td>
-            <td th:text="${item.availability} ? 'O' : 'X'"></td>
-        </tr>
-    </table>
+<th:block th:replace="~{/layouts/basic :: setContent(~{this :: content})}">
+    <th:block th:fragment="content">
+        <div class="text-center">
+            <h2 class="text-primary mb-4" th:text="#{book.list}"></h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>도서명</th>
+                        <th>저자</th>
+                        <th>출판사</th>
+                        <th>ISBN</th>
+                        <th>대출가능</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 글 목록 반복 출력 -->
+                    <tr th:each="item : ${bList}">
+                        <td>
+                            <a th:href="@{/book/read(bno=${item.bno})}" th:text="${item.title}"></a>
+                        </td>
+                        <td th:text="${item.author}"></td>
+                        <td th:text="${item.publisher}"></td>
+                        <td th:text="${item.isbn}"></td>
+                        <td>
+                                <span th:text="${item.availability} ? 'O' : 'X'" class="badge"
+                                      th:classappend="${item.availability} ? 'bg-success text-white' : 'bg-danger text-white'"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block>
+</th:block>
 </body>
 </html>
