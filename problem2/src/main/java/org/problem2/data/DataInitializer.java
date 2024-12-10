@@ -12,12 +12,20 @@ public class DataInitializer {
     private final UserRepository userRepository;
 
     @PostConstruct
-    public void insertInitialData() {
-        for (int i = 0; i < 5; i++) {
-            User user = User.builder()
-                    .name(String.format("Kim%d", i+1))
-                    .build();
-            userRepository.save(user);
+    public void insertInitialData() throws Exception {
+        try {
+            if (userRepository.count() > 0) {
+                return;
+            }
+
+            for (int i = 0; i < 5; i++) {
+                User user = User.builder()
+                        .name(String.format("Kim%d", i+1))
+                        .build();
+                userRepository.save(user);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

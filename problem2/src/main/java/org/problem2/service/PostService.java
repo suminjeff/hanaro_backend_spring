@@ -26,10 +26,9 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void read(Long postId) {
+    public Post read(Long postId) {
         Optional<Post> post = postRepository.findById(postId);
-
-        return;
+        return post.orElse(null);
     }
 
     public void readList() {
@@ -37,7 +36,18 @@ public class PostService {
     }
 
     public void update(PostRequestDTO.UpdatePostDTO updatePostDTO) {
-
+        Optional<Post> postData = postRepository.findById(updatePostDTO.getId());
+        if (postData.isPresent()) {
+            Post post = postData.get();
+            Post updatedPost = Post.builder()
+                .id(updatePostDTO.getId())
+                .writer(updatePostDTO.getWriter())
+                .title(updatePostDTO.getTitle())
+                .body(updatePostDTO.getBody())
+                .build();
+            updatedPost.setCreateAt(post.getCreateAt());
+            postRepository.save(updatedPost);
+        }
     }
 
     public void delete() {}

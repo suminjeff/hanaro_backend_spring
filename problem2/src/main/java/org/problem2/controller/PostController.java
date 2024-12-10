@@ -16,7 +16,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/post")
 public class PostController {
-    private PostService service;
+
+    private final PostService service;
+
+    @Autowired
+    public PostController(PostService service) {
+        this.service = service;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<String> create(@RequestBody PostRequestDTO.CreatePostDTO dto) {

@@ -19,6 +19,6 @@ public class Comment extends BaseEntity {
     @ManyToOne
     private User writer;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String body;
 }
