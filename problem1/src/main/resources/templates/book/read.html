@@ -12,32 +12,32 @@
             <h2 class="text-primary" th:text="#{book.read}"></h2>
             <dl class="row">
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">도서명</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.title}"></dt>
                     <dd class="col-sm-9" th:text="${book.title}"></dd>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">저자</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.author}"></dt>
                     <dd class="col-sm-9" th:text="${book.author}"></dd>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">출판사</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.publisher}"></dt>
                     <dd class="col-sm-9" th:text="${book.publisher}"></dd>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">요약 보기</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.description}"></dt>
                     <dd class="col-sm-9" th:text="${book.description}"></dd>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">ISBN</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.isbn}"></dt>
                     <dd class="col-sm-9" th:text="${book.isbn}"></dd>
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">대출 가능</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.availability}"></dt>
                     <dd class="col-sm-9">
                         <span th:text="${book.availability} ? 'O' : 'X'"
                               class="badge"
@@ -46,19 +46,17 @@
                 </div>
                 <hr>
                 <div class="d-flex align-items-center">
-                    <dt class="col-sm-3 fw-bold">신청자</dt>
+                    <dt class="col-sm-3 fw-bold" th:text="#{book.borrowerId}"></dt>
                     <dd class="col-sm-9">
                         <form th:action="@{/book/borrow(bno=${book.bno})}" method="post" class="d-flex align-items-center">
                             <input type="text" class="form-control me-3" name="borrowerId" th:value="${book.borrowerId}"
-                                   placeholder="대출자 ID 입력" th:disabled="${!book.availability}">
-                            <button type="submit" class="btn btn-primary w-25" th:disabled="${!book.availability}">
-                                대출 신청
-                            </button>
+                                   th:placeholder="#{placeholder.borrow}" th:disabled="${!book.availability}">
+                            <button type="submit" th:text="#{button.borrow}" class="btn btn-primary w-25" th:disabled="${!book.availability}"></button>
                         </form>
                     </dd>
                 </div>
             </dl>
-            <a th:href="@{/book/list}" class="btn btn-success text-decoration-none text-white w-100">목록 보기</a>
+            <a th:href="@{/book/list}" th:text="#{button.list}" class="btn btn-success text-decoration-none text-white w-100"></a>
         </div>
     </th:block>
 </th:block>

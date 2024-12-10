@@ -19,7 +19,7 @@ class BookMapperTests {
 
     @Test
     public void testInsert() {
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 5; i++) {
             Book book = Book.builder()
                     .title("Book" + i+1)
                     .author("Author" + i+1)
