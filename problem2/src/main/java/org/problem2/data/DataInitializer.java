@@ -2,7 +2,7 @@ package org.problem2.data;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.problem2.model.entity.User;
+import org.problem2.entity.User;
 import org.problem2.repository.UserRepository;
 import org.springframework.stereotype.Component;
 

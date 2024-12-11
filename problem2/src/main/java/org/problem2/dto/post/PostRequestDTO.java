@@ -1,7 +1,6 @@
-package org.problem2.model.dto;
+package org.problem2.dto.post;
 
 import lombok.*;
-import org.problem2.model.entity.User;
 
 public class PostRequestDTO {
 
@@ -9,8 +8,8 @@ public class PostRequestDTO {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CreatePostDTO {
-        private User writer;
+    public static class CreateDTO {
+        private String writer;
         private String title;
         private String body;
     }
@@ -19,9 +18,9 @@ public class PostRequestDTO {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class UpdatePostDTO {
+    public static class UpdateDTO {
         private Long id;
-        private User writer;
+        private String writer;
         private String title;
         private String body;
     }
