@@ -28,11 +28,15 @@ public class CommentController {
             commentService.create(dto, postId);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(ResponseBuilder.success(HttpStatus.CREATED, null, "댓글 등록 성공"));
-        } catch (Exception e) {
+                    .body(ResponseBuilder.success(HttpStatus.CREATED, null, HttpStatus.CREATED.getReasonPhrase()));
+        } catch (NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(ResponseBuilder.failure(HttpStatus.NOT_FOUND, "게시글이 존재하지 않습니다."));
+                    .body(ResponseBuilder.failure(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ResponseBuilder.failure(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase()));
         }
     }
 
@@ -42,11 +46,11 @@ public class CommentController {
             List<CommentResponseDTO.ReadListDTO> postList = commentService.readList(postId);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ResponseBuilder.success(HttpStatus.OK, postList, "댓글 목록 조회 성공"));
+                    .body(ResponseBuilder.success(HttpStatus.OK, postList, HttpStatus.OK.getReasonPhrase()));
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ResponseBuilder.failure(HttpStatus.INTERNAL_SERVER_ERROR, "목록 조회 중 에러 발생"));
+                    .body(ResponseBuilder.failure(HttpStatus.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase()));
         }
     }
 
@@ -56,11 +60,15 @@ public class CommentController {
             commentService.update(dto);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ResponseBuilder.success(HttpStatus.OK, null, "댓글 수정 성공"));
+                    .body(ResponseBuilder.success(HttpStatus.OK, null, HttpStatus.OK.getReasonPhrase()));
         } catch (NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(ResponseBuilder.failure(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다."));
+                    .body(ResponseBuilder.failure(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ResponseBuilder.failure(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase()));
         }
     }
 
@@ -70,11 +78,11 @@ public class CommentController {
             commentService.delete(id);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(ResponseBuilder.success(HttpStatus.OK, null, "댓글 삭제 성공"));
+                    .body(ResponseBuilder.success(HttpStatus.OK, null, HttpStatus.OK.getReasonPhrase()));
         } catch (NoSuchElementException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .body(ResponseBuilder.failure(HttpStatus.NOT_FOUND, "댓글이 존재하지 않습니다."));
+                    .body(ResponseBuilder.failure(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase()));
         }
     }
 }

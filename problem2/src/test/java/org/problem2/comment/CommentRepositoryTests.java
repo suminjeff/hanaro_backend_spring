@@ -42,7 +42,7 @@ public class CommentRepositoryTests {
                     .writer(user)
                     .build();
             commentRepository.save(comment);
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("ID가 " + postId + "인 게시글이 존재하지 않습니다");
         }
     }
@@ -113,7 +113,7 @@ public class CommentRepositoryTests {
         try {
             commentRepository.deleteById(id);
             System.out.println("삭제 성공");
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 댓글이 존재하지 않습니다");
         }
     }

@@ -14,9 +14,11 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "post")
     private Post post;
 
     @ManyToOne
+    @JoinColumn(name = "writer")
     private User writer;
 
     @Column(nullable = false, length = 500)

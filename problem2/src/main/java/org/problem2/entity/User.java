@@ -1,10 +1,7 @@
 package org.problem2.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Builder
@@ -22,12 +19,4 @@ public class User {
 
     @Column(length = 255)
     private String email;
-
-    @JsonIgnore
-    @OneToMany
-    private List<Post> postList;
-
-    @JsonIgnore
-    @OneToMany
-    private List<Comment> commentList;
 }

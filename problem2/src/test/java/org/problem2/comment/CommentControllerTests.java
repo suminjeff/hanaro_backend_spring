@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -96,7 +97,7 @@ public class CommentControllerTests {
                     .andReturn();
 
             printResult(result);
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("ID가 " + postId + "인 댓글이 존재하지 않습니다.");
         }
     }
@@ -127,7 +128,7 @@ public class CommentControllerTests {
                     .andReturn();
 
             printResult(result);
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("ID가 " + comment.getId() + "인 댓글이 존재하지 않습니다.");
         }
     }

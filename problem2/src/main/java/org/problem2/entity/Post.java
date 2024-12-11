@@ -1,7 +1,12 @@
 package org.problem2.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -17,7 +22,11 @@ public class Post extends BaseEntity {
     private String title;
 
     @ManyToOne
+    @JoinColumn(name = "writer")
     private User writer;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comment> commentList;
 
     @Column(nullable = false)
     private String body;

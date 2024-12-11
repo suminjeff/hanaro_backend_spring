@@ -23,18 +23,30 @@ public class PostRepositoryTests {
 
     @Test
     public void testCreate() {
-        User user = userRepository.findByName("Kim1");
-        Post post = Post.builder()
-                .title("Repository Test Title")
-                .body("Repository Test Body")
-                .writer(user)
-                .build();
-        postRepository.save(post);
+        List<User> userList = userRepository.findAll();
+        if (userList.isEmpty()) {
+            System.out.println("유저 데이터가 존재하지 않습니다.");
+            return;
+        }
+        User user = userList.get(0);
+        for (int i = 0; i < 10; i++) {
+            Post post = Post.builder()
+                    .title(String.format("Repository Test Title %d", i))
+                    .body(String.format("Repository Test Body %d", i))
+                    .writer(user)
+                    .build();
+            postRepository.save(post);
+        }
     }
 
     @Test
     public void testRead() {
-        Long id = 1L;
+        List<Post> postList = postRepository.findAll();
+        if (postList.isEmpty()) {
+            System.out.println("게시글 데이터가 존재하지 않습니다.");
+            return;
+        }
+        Long id = postList.get(0).getId();
         try {
             Post post = postRepository.findById(id).orElseThrow();
             System.out.print("{ " +
@@ -69,10 +81,14 @@ public class PostRepositoryTests {
 
     @Test
     public void testUpdate() {
-        Long id = 1L;
+        List<Post> postList = postRepository.findAll();
+        if (postList.isEmpty()) {
+            System.out.println("게시글 데이터가 존재하지 않습니다.");
+            return;
+        }
+        Long id = postList.get(0).getId();
         String updateTitle = "Update Title";
         String updateBody = "Update Body";
-
         try {
             Post post = postRepository.findById(id).orElseThrow();
             Post postBuild = Post.builder()
@@ -98,11 +114,16 @@ public class PostRepositoryTests {
 
     @Test
     public void testDelete() {
-        Long id = 1L;
+        List<Post> postList = postRepository.findAll();
+        if (postList.isEmpty()) {
+            System.out.println("게시글 데이터가 존재하지 않습니다.");
+            return;
+        }
+        Long id = postList.get(0).getId();
         try {
             postRepository.deleteById(id);
             System.out.println("삭제 성공");
-        } catch (Exception e) {
+        } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 게시글이 존재하지 않습니다");
         }
     }
