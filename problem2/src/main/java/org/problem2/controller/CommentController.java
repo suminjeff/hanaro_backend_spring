@@ -22,8 +22,8 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/create/{postId}")
-    public ResponseEntity<ResponseDTO<Void>> create(@RequestBody CommentRequestDTO.CreateDTO dto, @PathVariable("postId") Long postId) {
+    @PostMapping("")
+    public ResponseEntity<ResponseDTO<Void>> create(@RequestBody CommentRequestDTO.CreateDTO dto, @RequestParam("postId") Long postId) {
         try {
             commentService.create(dto, postId);
             return ResponseEntity
@@ -36,8 +36,8 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/read/{postId}")
-    public ResponseEntity<ResponseDTO<?>> readList(@PathVariable("postId") Long postId) {
+    @GetMapping("")
+    public ResponseEntity<ResponseDTO<?>> readList(@RequestParam("postId") Long postId) {
         try {
             List<CommentResponseDTO.ReadListDTO> postList = commentService.readList(postId);
             return ResponseEntity
@@ -50,8 +50,8 @@ public class CommentController {
         }
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<ResponseDTO<Void>> update(@RequestBody CommentRequestDTO.UpdateDTO dto) {
+    @PutMapping("")
+    public ResponseEntity<ResponseDTO<Void>> update(@RequestBody CommentRequestDTO.UpdateDTO dto, @RequestParam("postId") Long postId) {
         try {
             commentService.update(dto);
             return ResponseEntity
@@ -64,8 +64,8 @@ public class CommentController {
         }
     }
 
-    @DeleteMapping("/delete/{postId}/{id}")
-    public ResponseEntity<ResponseDTO<Void>> delete(@PathVariable("postId") Long postId, @PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ResponseDTO<Void>> delete(@PathVariable("id") Long id) {
         try {
             commentService.delete(id);
             return ResponseEntity

@@ -52,6 +52,7 @@ public class CommentService {
         Comment updatedComment = Comment.builder()
                 .id(updateDTO.getId())
                 .writer(userRepository.findByName(updateDTO.getWriter()))
+                .post(comment.getPost())
                 .body(updateDTO.getBody())
                 .build();
         updatedComment.setCreateAt(comment.getCreateAt());
