@@ -34,14 +34,16 @@ public class CommentRepositoryTests {
         }
         Long postId = postList.get(0).getId();
         try {
-            User user = userRepository.findByName("Kim1");
-            Post post = postRepository.findById(postId).orElseThrow();
-            Comment comment = Comment.builder()
-                    .body("Repository Test Body")
-                    .post(post)
-                    .writer(user)
-                    .build();
-            commentRepository.save(comment);
+            for (int i = 0; i < 10; i++) {
+                User user = userRepository.findByName("Kim1");
+                Post post = postRepository.findById(postId).orElseThrow();
+                Comment comment = Comment.builder()
+                        .body("Repository Test Body")
+                        .post(post)
+                        .writer(user)
+                        .build();
+                commentRepository.save(comment);
+            }
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + postId + "인 게시글이 존재하지 않습니다");
         }

@@ -1,4 +1,4 @@
-package org.problem2.data;
+package org.problem2.initializer;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

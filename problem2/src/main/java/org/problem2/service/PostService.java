@@ -39,7 +39,7 @@ public class PostService {
                 .body(post.getBody())
                 .title(post.getTitle())
                 .writer(post.getWriter().getName())
-//                    .commentList()
+                .commentList(postRepository.findComments(post.getId()))
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class PostService {
                             .writer(post.getWriter().getName())
                             .createAt(post.getCreateAt())
                             .updateAt(post.getUpdateAt())
-//                            .commentCount()
+                            .commentCount(postRepository.countComments(post.getId()))
                     .build());
         }
         return postDtoList;

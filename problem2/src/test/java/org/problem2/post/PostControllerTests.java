@@ -40,7 +40,6 @@ public class PostControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-
     @Autowired
     private PostRepository postRepository;
 
@@ -87,7 +86,6 @@ public class PostControllerTests {
             return;
         }
         Long id = postList.get(0).getId();
-        
         // 테스트
         try {
             MvcResult result = mockMvc.perform(get(BASE_URL + "/{id}", id))
@@ -101,7 +99,7 @@ public class PostControllerTests {
 
     @Test
     @DisplayName("[GET] /posts")
-    public void testListRead() throws Exception {
+    public void testReadList() throws Exception {
         MvcResult result = mockMvc.perform(get(BASE_URL))
                 .andExpect(status().isOk())
                 .andReturn();
