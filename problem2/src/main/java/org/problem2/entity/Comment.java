@@ -8,17 +8,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Table(name = "Comment")
 public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "post")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "post", referencedColumnName = "id", nullable = false)
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "writer")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "writer", referencedColumnName = "id", nullable = false)
     private User writer;
 
     @Column(nullable = false, length = 500)

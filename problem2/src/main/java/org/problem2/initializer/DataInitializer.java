@@ -6,6 +6,8 @@ import org.problem2.entity.User;
 import org.problem2.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class DataInitializer {
@@ -18,14 +20,21 @@ public class DataInitializer {
                 return;
             }
 
-            for (int i = 0; i < 5; i++) {
-                User user = User.builder()
-                        .name(String.format("Kim%d", i+1))
-                        .build();
-                userRepository.save(user);
-            }
+            List<User> userList = createUserList();
+            userRepository.saveAll(userList);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private List<User> createUserList() {
+        return List.of(
+                User.builder().name("Kim1").build(),
+                User.builder().name("Kim2").build(),
+                User.builder().name("Kim3").build(),
+                User.builder().name("Kim4").build(),
+                User.builder().name("Kim5").build()
+        );
     }
 }

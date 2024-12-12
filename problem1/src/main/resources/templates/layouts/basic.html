@@ -38,11 +38,21 @@
     <script th:inline="javascript">
         function languageSelectHandler() {
             const selectedLanguage = document.getElementById("language-selector").value;
-            const currentUrl = window.location.href;
-            const splitUrl = currentUrl.split("?");
-            const newUrl = splitUrl[0] + "?lang=" + selectedLanguage + "&" + splitUrl[1];
-            window.location.href=newUrl;
+            if (selectedLanguage === "언어 선택" || selectedLanguage === "Select Language") return;
+            // 현재 URL과 쿼리 파라미터 분리
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+
+            // 'lang' 파라미터 업데이트
+            params.set("lang", selectedLanguage);
+
+            // URL 업데이트
+            url.search = params.toString();
+
+            // 페이지 리다이렉트
+            window.location.href = url.toString();
         }
+
     </script>
     <!-- Bootstrap JS (optional) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNBoPOG1BAtwe1DO/8SUwwWLgRmQ5jEqA6MWUbxCMNMH05pG5kWGCIqEw3WcZo9" crossorigin="anonymous"></script>

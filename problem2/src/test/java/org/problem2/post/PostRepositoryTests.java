@@ -1,5 +1,6 @@
 package org.problem2.post;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.problem2.entity.Post;
 import org.problem2.entity.User;
@@ -8,8 +9,11 @@ import org.problem2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -28,15 +32,21 @@ public class PostRepositoryTests {
             System.out.println("유저 데이터가 존재하지 않습니다.");
             return;
         }
+        String title = "Repository Test Title";
+        String body = "Repository Test Body";
         User user = userList.get(0);
-        for (int i = 0; i < 10; i++) {
-            Post post = Post.builder()
-                    .title(String.format("Repository Test Title %d", i))
-                    .body(String.format("Repository Test Body %d", i))
-                    .writer(user)
-                    .build();
-            postRepository.save(post);
-        }
+        Post post = Post.builder()
+                .title(title)
+                .body(body)
+                .writer(user)
+                .build();
+        Post savedPost = postRepository.save(post);
+
+        assertNotNull(savedPost);
+        assertEquals(title, savedPost.getTitle());
+        assertEquals(body, savedPost.getBody());
+        assertEquals(user, savedPost.getWriter());
+        System.out.println("게시글 생성 성공");
     }
 
     @Test
@@ -49,14 +59,7 @@ public class PostRepositoryTests {
         Long id = postList.get(0).getId();
         try {
             Post post = postRepository.findById(id).orElseThrow();
-            System.out.print("{ " +
-                    "id: " + post.getId() + ", " + ", " +
-                    "title: " + post.getTitle() + ", " +
-                    "body: " + post.getBody() + ", " +
-                    "writer: " + post.getWriter().getName() + ", " +
-                    "createAt: " + post.getCreateAt() + ", " +
-                    "updateAt: " + post.getUpdateAt() +
-                    " }");
+            assertNotNull(post);
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 게시글이 존재하지 않습니다");
         }
@@ -65,18 +68,8 @@ public class PostRepositoryTests {
     @Test
     public void testReadList() {
         List<Post> postList = postRepository.findAll();
-        System.out.print("[ ");
-        for (Post post : postList) {
-            System.out.print("{ " +
-                    "id: " + post.getId() + ", " + ", " +
-                    "title: " + post.getTitle() + ", " +
-                    "body: " + post.getBody() + ", " +
-                    "writer: " + post.getWriter().getName() + ", " +
-                    "createAt: " + post.getCreateAt() + ", " +
-                    "updateAt: " + post.getUpdateAt() +
-                    " }, ");
-        }
-        System.out.println(" ]");
+        postList.forEach(Assertions::assertNotNull);
+        System.out.println("게시글 목록 조회 성공");
     }
 
     @Test
@@ -99,14 +92,10 @@ public class PostRepositoryTests {
                     .build();
             postRepository.save(postBuild);
             Post updatedPost = postRepository.findById(id).orElseThrow();
-            System.out.print("{ " +
-                    "id: " + updatedPost.getId() + ", " + ", " +
-                    "title: " + updatedPost.getTitle() + ", " +
-                    "body: " + updatedPost.getBody() + ", " +
-                    "writer: " + updatedPost.getWriter().getName() + ", " +
-                    "createAt: " + updatedPost.getCreateAt() + ", " +
-                    "updateAt: " + updatedPost.getUpdateAt() +
-                    " }");
+            assertNotNull(updatedPost);
+            assertEquals(updateTitle, updatedPost.getTitle());
+            assertEquals(updateBody, updatedPost.getBody());
+            assertEquals(post.getWriter().getName(), updatedPost.getWriter().getName());
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 게시글이 존재하지 않습니다");
         }
@@ -122,6 +111,8 @@ public class PostRepositoryTests {
         Long id = postList.get(0).getId();
         try {
             postRepository.deleteById(id);
+            Post deletedPost = postRepository.findById(id).orElse(null);
+            assertNull(deletedPost);
             System.out.println("삭제 성공");
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 게시글이 존재하지 않습니다");

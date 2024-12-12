@@ -1,5 +1,6 @@
 package org.problem2.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,6 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Table(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,6 +19,6 @@ public class User {
     @Column(unique = true, length = 31)
     private String name;
 
-    @Column(length = 255)
+    @Column
     private String email;
 }

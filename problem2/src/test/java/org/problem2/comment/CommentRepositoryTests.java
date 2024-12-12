@@ -13,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @SpringBootTest
 public class CommentRepositoryTests {
@@ -22,6 +24,7 @@ public class CommentRepositoryTests {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private PostRepository postRepository;
 
@@ -32,18 +35,23 @@ public class CommentRepositoryTests {
             System.out.println("게시글 데이터가 존재하지 않습니다.");
             return;
         }
+        String body = "Repository Test Body";
         Long postId = postList.get(0).getId();
         try {
-            for (int i = 0; i < 10; i++) {
-                User user = userRepository.findByName("Kim1");
-                Post post = postRepository.findById(postId).orElseThrow();
-                Comment comment = Comment.builder()
-                        .body("Repository Test Body")
-                        .post(post)
-                        .writer(user)
-                        .build();
-                commentRepository.save(comment);
-            }
+            User user = userRepository.findByName("Kim1");
+            Post post = postRepository.findById(postId).orElseThrow();
+            Comment comment = Comment.builder()
+                    .body(body)
+                    .post(post)
+                    .writer(user)
+                    .build();
+            Comment savedComment = commentRepository.save(comment);
+
+            assertNotNull(savedComment);
+            assertEquals(body, savedComment.getBody());
+            assertEquals(postId, savedComment.getPost().getId());
+            assertEquals(user.getId(), savedComment.getWriter().getId());
+
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + postId + "인 게시글이 존재하지 않습니다");
         }
@@ -58,17 +66,7 @@ public class CommentRepositoryTests {
         }
         Long postId = postList.get(0).getId();
         List<Comment> commentList = commentRepository.findAllByPostId(postId);
-        System.out.print("[ ");
-        for (Comment comment : commentList) {
-            System.out.print("{ " +
-                    "id: " + comment.getId() + ", " + ", " +
-                    "body: " + comment.getBody() + ", " +
-                    "writer: " + comment.getWriter().getName() + ", " +
-                    "createAt: " + comment.getCreateAt() + ", " +
-                    "updateAt: " + comment.getUpdateAt() +
-                    " }, ");
-        }
-        System.out.println(" ]");
+        assertNotNull(commentList);
     }
 
     @Test
@@ -91,14 +89,11 @@ public class CommentRepositoryTests {
                     .build();
             commentRepository.save(commentBuild);
             Comment updatedComment = commentRepository.findById(id).orElseThrow();
-            System.out.print("{ " +
-                    "id: " + updatedComment.getId() + ", " + ", " +
-                    "body: " + updatedComment.getBody() + ", " +
-                    "writer: " + updatedComment.getWriter().getName() + ", " +
-                    "post: " + updatedComment.getPost().getId() + ", " +
-                    "createAt: " + updatedComment.getCreateAt() + ", " +
-                    "updateAt: " + updatedComment.getUpdateAt() +
-                    " }");
+            assertEquals(comment.getId(), updatedComment.getId());
+            assertEquals(updateBody, updatedComment.getBody());
+            assertEquals(comment.getPost().getId(), updatedComment.getPost().getId());
+            assertEquals(comment.getWriter().getName(), updatedComment.getWriter().getName());
+
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 댓글이 존재하지 않습니다");
         }
@@ -114,6 +109,8 @@ public class CommentRepositoryTests {
         Long id = commentList.get(0).getId();
         try {
             commentRepository.deleteById(id);
+            Comment deletedComment = commentRepository.findById(id).orElse(null);
+            assertNull(deletedComment);
             System.out.println("삭제 성공");
         } catch (NoSuchElementException e) {
             System.out.println("ID가 " + id + "인 댓글이 존재하지 않습니다");

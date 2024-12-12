@@ -23,7 +23,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("")
-    public ResponseEntity<ResponseDTO<Void>> create(@RequestBody CommentRequestDTO.CreateDTO dto, @RequestParam("postId") Long postId) {
+    public ResponseEntity<ResponseDTO<Void>> create(@RequestBody CommentRequestDTO.CreateDTO dto, @RequestParam("post-id") Long postId) {
         try {
             commentService.create(dto, postId);
             return ResponseEntity
@@ -41,7 +41,7 @@ public class CommentController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResponseDTO<?>> readList(@RequestParam("postId") Long postId) {
+    public ResponseEntity<ResponseDTO<?>> readList(@RequestParam("post-id") Long postId) {
         try {
             List<CommentResponseDTO.ReadListDTO> postList = commentService.readList(postId);
             return ResponseEntity
@@ -55,7 +55,7 @@ public class CommentController {
     }
 
     @PutMapping("")
-    public ResponseEntity<ResponseDTO<Void>> update(@RequestBody CommentRequestDTO.UpdateDTO dto, @RequestParam("postId") Long postId) {
+    public ResponseEntity<ResponseDTO<Void>> update(@RequestBody CommentRequestDTO.UpdateDTO dto, @RequestParam("post-id") Long postId) {
         try {
             commentService.update(dto);
             return ResponseEntity

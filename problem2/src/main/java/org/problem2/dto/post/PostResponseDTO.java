@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.problem2.dto.comment.CommentResponseDTO;
 import org.problem2.entity.Comment;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class PostResponseDTO {
         private String body;
         private LocalDateTime createAt;
         private LocalDateTime updateAt;
-        private List<Comment> commentList;
+        private List<CommentResponseDTO.ReadListDTO> commentList;
     }
 
     @Builder

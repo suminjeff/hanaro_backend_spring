@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,7 +74,7 @@ public class CommentControllerTests {
                         .body(body)
                         .build()
         );
-        MvcResult result = mockMvc.perform(post(BASE_URL + "?postId={postId}", postId)
+        MvcResult result = mockMvc.perform(post(BASE_URL + "?post-id={postId}", postId)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -82,7 +83,7 @@ public class CommentControllerTests {
     }
 
     @Test
-    @DisplayName("[GET] /comments?postId={postId}")
+    @DisplayName("[GET] /comments?post-id={postId}")
     public void testReadList() throws Exception {
         List<Post> postList = postRepository.findAll();
         if (postList.isEmpty()) {
@@ -93,7 +94,8 @@ public class CommentControllerTests {
 
         // 테스트
         try {
-            MvcResult result = mockMvc.perform(get(BASE_URL + "?postId={postId}", postId))
+            MvcResult result = mockMvc.perform(get(BASE_URL + "?post-id={postId}", postId))
+                    .andExpect(status().isOk())
                     .andReturn();
 
             printResult(result);
@@ -122,9 +124,10 @@ public class CommentControllerTests {
                         .build()
         );
         try {
-            MvcResult result = mockMvc.perform(put(BASE_URL + "?postId={postId}", comment.getPost().getId())
+            MvcResult result = mockMvc.perform(put(BASE_URL + "?post-id={postId}", comment.getPost().getId())
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
                     .andReturn();
 
             printResult(result);

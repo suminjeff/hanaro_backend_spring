@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import org.problem2.entity.Post;
 import org.problem2.entity.User;
 import org.problem2.repository.PostRepository;
 import org.problem2.repository.UserRepository;
+import org.problem2.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.io.UnsupportedEncodingException;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -42,6 +45,8 @@ public class PostControllerTests {
 
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private PostService postService;
 
     public static void printResult(MvcResult result) throws UnsupportedEncodingException {
         String responseContent = result.getResponse().getContentAsString();
@@ -85,10 +90,18 @@ public class PostControllerTests {
             System.out.println("게시글 데이터가 존재하지 않습니다.");
             return;
         }
-        Long id = postList.get(0).getId();
+        Post post = postList.get(0);
+        Long id = post.getId();
         // 테스트
         try {
             MvcResult result = mockMvc.perform(get(BASE_URL + "/{id}", id))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.data.id").value(post.getId()))
+                    .andExpect(jsonPath("$.data.title").value(post.getTitle()))
+                    .andExpect(jsonPath("$.data.body").value(post.getBody()))
+                    .andExpect(jsonPath("$.data.writer").value(post.getWriter().getName()))
+                    .andExpect(jsonPath("$.data.createAt").value(post.getCreateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))))
+                    .andExpect(jsonPath("$.data.updateAt").value(post.getUpdateAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS"))))
                     .andReturn();
 
             printResult(result);
@@ -131,6 +144,7 @@ public class PostControllerTests {
             MvcResult result = mockMvc.perform(put(BASE_URL)
                         .content(requestBody)
                         .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
                     .andReturn();
 
             printResult(result);
